@@ -30,6 +30,14 @@ export const App = () => {
     }).fetch()
   );
 
+  const pendingTasksCount = useTracker(() =>
+    TasksCollection.find(hideCompletedFilter).count()
+  );
+
+  const pendingTasksTitle = `${
+    pendingTasksCount ? ` (${pendingTasksCount})` : ''
+  }`;
+
 
   return (
     <div className='app'>
@@ -37,6 +45,7 @@ export const App = () => {
         <div className="app-bar">
           <div className="app-header">
             <h1>📝️ To Do List</h1>
+            {pendingTasksTitle}
           </div>
         </div>
       </header>
