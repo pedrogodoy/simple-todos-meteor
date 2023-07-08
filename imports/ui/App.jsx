@@ -4,6 +4,7 @@ import { Task } from './Task.jsx';
 import { TasksCollection } from '../api/TasksCollection.js';
 import { TaskForm } from './Taskform.jsx';
 import { LoginForm } from './LoginForm.jsx';
+import { Meteor } from 'meteor/meteor';
 
 const tasks = [
   { _id: 1, text: 'First Task' },
@@ -11,14 +12,8 @@ const tasks = [
   { _id: 3, text: 'Third Task' },
 ];
 
-const deleteTask = ({ _id }) => TasksCollection.remove(_id);
-const toggleChecked = ({ _id, isChecked }) => {
-  TasksCollection.update(_id, {
-    $set: {
-      isChecked: !isChecked
-    }
-  })
-};
+const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
+const toggleChecked = Meteor.call('tasks.setIsChecked', _id, !isChecked);
 
 export const App = () => {
   const [hideCompleted, setHideCompleted] = useState(false);
@@ -72,7 +67,7 @@ export const App = () => {
             <div className="user" onClick={logout}>
               {user.username || user.profile.name} 🚪
             </div>
-            <TaskForm user={user} />
+            <TaskForm />
 
             <div className="filter">
               <button onClick={() => setHideCompleted(!hideCompleted)}>
