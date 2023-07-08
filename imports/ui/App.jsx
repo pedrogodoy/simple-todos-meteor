@@ -7,7 +7,7 @@ import { LoginForm } from './LoginForm.jsx';
 import { Meteor } from 'meteor/meteor';
 
 const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
-const toggleChecked = ({ _id }) => Meteor.call('tasks.setIsChecked', _id, !isChecked);
+const toggleChecked = ({ _id, isChecked }) => Meteor.call('tasks.setIsChecked', _id, !isChecked);
 
 export const App = () => {
   const [hideCompleted, setHideCompleted] = useState(false);
@@ -58,6 +58,7 @@ export const App = () => {
       </header>
 
       <div className='main'>
+        
         {user ? (
           <Fragment>
             <div className="user" onClick={logout}>
